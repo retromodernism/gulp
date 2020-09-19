@@ -1,6 +1,6 @@
 
-let project_folder = require('path').basename(__dirname);
-let source_folder = "#src";
+let project_folder = 'dist';
+let source_folder = '#src';
 
 let fs = require('fs');
 
@@ -29,26 +29,19 @@ let path = {
 }
 
 let { src, dest } = require('gulp'),
-	gulp = require('gulp'),
-	browsersync = require("browser-sync").create(),
-	fileinclude = require("gulp-file-include"),
-	del = require("del"),
-	scss = require("gulp-sass"),
-	autoprefixer = require("gulp-autoprefixer"),
-	// Чего-то не работает автопрефиксер как в видео фрилансера -_-
-	group_media = require("gulp-group-css-media-queries"),
-	// Медиа тоже не заводится
-	clean_css = require("gulp-clean-css"),
-	rename = require("gulp-rename"),
-	uglify = require("gulp-uglify-es").default,
-	imagemin = require("gulp-imagemin"),
-	webp = require("gulp-webp"),
-	webphtml = require("gulp-webp-html"),
-	webpcss = require("gulp-webp-css"),
-	svgSprite = require("gulp-svg-sprite"),
-	ttf2woff = require("gulp-ttf2woff"),
-	ttf2woff2 = require("gulp-ttf2woff2"),
-	fonter = require("gulp-fonter");
+	gulp = require('gulp'),                         // 
+	browsersync = require("browser-sync").create(), // Обновляет страницу
+	fileinclude = require("gulp-file-include"),     // Подключает файлы
+	del = require("del"),                           // Удаляет файлы
+	scss = require("gulp-sass"),                    // Препроцессор SCSS
+	clean_css = require("gulp-clean-css"),          // Уменьшает CSS
+	rename = require("gulp-rename"),                // Переименовывает
+	uglify = require("gulp-uglify-es").default,     // Уродует JS
+	imagemin = require("gulp-imagemin"),            // Уменьшает размер изображения
+	svgSprite = require("gulp-svg-sprite"),         // Объединяет svg иконки в один файл
+	ttf2woff = require("gulp-ttf2woff"),            // ttf2woff
+	ttf2woff2 = require("gulp-ttf2woff2"),          // ttf2woff2
+	fonter = require("gulp-fonter");                // otf2ttf
 
 function browserSync(params) {
 	browsersync.init({
@@ -63,7 +56,6 @@ function browserSync(params) {
 function html() {
 	return src(path.src.html)
 		.pipe(fileinclude())
-		.pipe(webphtml())
 		.pipe(dest(path.build.html))
 		.pipe(browsersync.stream())
 }
@@ -74,18 +66,6 @@ function css() {
 		scss({
 			outputStyle: "expanded"
 		})
-		)
-		.pipe(
-			group_media()
-		)
-		.pipe(
-			autoprefixer({
-				overrideBrowserlist: ["last 5 versions"],
-				cascade: true
-			})
-		)
-		.pipe(
-			webpcss()
 		)
 		.pipe(dest(path.build.css))
 		.pipe(clean_css())
@@ -116,13 +96,6 @@ function js() {
 
 function images() {
 	return src(path.src.img)
-		.pipe(
-			webp({
-				quality: 70
-			})
-		)
-		.pipe(dest(path.build.img))
-		.pipe(src(path.src.img))
 		.pipe(
 			imagemin({
 				progressive: true,
