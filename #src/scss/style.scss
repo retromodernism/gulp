@@ -10,12 +10,4 @@
 }
 
 @import 'fonts';
-
-body {
-	font-size: 35px;
-	display: flex;
-}
-
-div {
-	background: url(../img/image.png) 0 0 no-repeat;
-}
+@import 'global';

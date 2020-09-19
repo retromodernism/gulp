@@ -168,7 +168,7 @@ gulp.task("svgSprite", function () {
 		.pipe(dest(path.build.img))
 })
 
-function fontsStyle() {
+function fontsStyle(params) {
 	let file_content = fs.readFileSync(source_folder + '/scss/fonts.scss');
 	if (file_content == '') {
 		fs.writeFile(source_folder + '/scss/fonts.scss', '', cb);
